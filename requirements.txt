@@ -1,0 +1,8 @@
+bs4
+pandas
+openpyxl
+docxtpl
+docx
+matplotlib
+tkcalendar
+pylab

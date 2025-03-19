@@ -1,0 +1,8 @@
+# 檔案名稱 .gitignore
+
+# 忽略 資料夾
+__pycache__
+original/
+
+# 當然你要忽略自己也可以，只是通常不會這麼做
+# .gitignore
