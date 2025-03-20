@@ -125,7 +125,6 @@ class AppScanWordReport:
         doc.render(context)
         
         doc.save(output_path)
-        print(f"Word 報告已成功生成：{output_path}")
 
     def generate_word_report(self, title_word, task_folder_path, report_type, need_canse=3):
         json_paths = []

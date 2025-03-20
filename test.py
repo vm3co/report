@@ -7,14 +7,14 @@ url = "http://localhost:8080/upload/"  # FastAPI 上傳端點
 files = []
 
 # 自訂任務名稱
-uploadtaskname = "MyTaskName7"
+uploadtaskname = "MyTaskName2"
 iscontinue = "no"  # 或 "yes"
 # 你要上傳的檔案
 appscan_files = [
-    r"D:\GitHub\AppScan_report\data\uploadproject\test01\Appscan_http___testasp.vulnweb.com_.scan",
-    r"D:\GitHub\AppScan_report\data\uploadproject\test01\Appscan_https___ginandjuice.shop_.scan",
-    r"D:\GitHub\appliance\app\data\uploadproject\TEST\000_ACSI_1219-1_1(N)_y6zr3g.nessus",
-    r"D:\GitHub\appliance\app\data\uploadproject\TEST\000_ACSI_1219-2_1(N)_dtxklw.nessus",
+    r"D:\GitHub\report\data\uploadproject\MyTaskName1\appscan\Appscan_http___testasp.vulnweb.com_.scan",
+    r"D:\GitHub\report\data\uploadproject\MyTaskName1\appscan\Appscan_https___ginandjuice.shop_.scan",
+    r"D:\GitHub\report\data\uploadproject\MyTaskName1\nessus\000_ACSI_1219-1_1(N)_y6zr3g.nessus",
+    r"D:\GitHub\report\data\uploadproject\MyTaskName1\nessus\000_ACSI_1219-2_1(N)_dtxklw.nessus",
     ]
 
 for appscan_file in appscan_files:

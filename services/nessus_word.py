@@ -12,7 +12,6 @@ from docx.shared import Mm  # 可用於設置圖片尺寸
 
 class NessusDocGenerater:
     def __init__(self):
-        print("NessusDocGenerater --- loaded")
         # 加載模板文件
         self.template = DocxTemplate(os.path.join(os.getcwd(), "data/report_templates","template_va.docx"))
         # self.menu_updater = MenuUpdater()
@@ -190,8 +189,6 @@ class NessusDocGenerater:
         
         # 更新目錄
         # self.menu_updater.re_index(output_path)
-
-        print(f"Nessus_Word --- fin")
 
     @staticmethod
     def _to_df(json_path):

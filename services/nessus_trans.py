@@ -61,7 +61,7 @@ class ApplinaceTranslate:
                 content_full = "\n".join(content_full)
                 data.update({f'{sub_title}' : content_full})
         else:
-            print("未找到指定的 section 标签")
+            pass
         
         values = list(data.values())
         selected_values = [plugin_id] + [values[i] for i in [0, 2, 3]]
@@ -101,7 +101,6 @@ def main():
     plugin_id = 44330
     trans = ApplinaceTranslate()
     data = trans.trans_run(plugin_id)
-    print(data)
 
 if __name__ == "__main__":
     main()

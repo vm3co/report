@@ -5,7 +5,7 @@ from datetime import datetime, UTC
 
 class NessusParser:
     def __init__(self):
-        print("NessusParser --- loaded")
+        pass
 
     @staticmethod
     def output(output):
@@ -122,7 +122,6 @@ def main():
     taskpath = r"D:\GitHub\appliance\app\data\uploadproject\TEST3"
     temp = NessusParser()
     df_nessus, df_nessus_scan_info = temp.nessus_to_df(taskpath)
-    print("df")
     return df_nessus, df_nessus_scan_info
 
 if __name__ == "__main__":

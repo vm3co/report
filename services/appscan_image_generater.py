@@ -9,7 +9,6 @@ import math
 class AppScanImageGenerater:
 # 假設 df 已經存在，並且只有一行數據
     def __init__(self):
-        print("AppScanImageGenerater --- loaded")
         # # 包含參考資訊
         # self.bar_color = ['gray', 'yellow', 'orange', '#FF5151', '#CE0000']
         # self.severity_mapping = {"Critical": "嚴重", "High": "高", "Medium": "中", "Low": "低", "Informational": "參考資訊"}
@@ -102,7 +101,6 @@ def main():
     need_canse=3  # 只需要幾個風險填幾個
     ScanImageGenerater = AppScanImageGenerater()
     ScanImageGenerater.generate_image(task_folder_path, need_canse=need_canse)
-    print("OK")
 
 if __name__ == "__main__":
     main()

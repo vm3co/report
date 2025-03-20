@@ -12,8 +12,6 @@ from services.nessus_parser import NessusParser
 
 class NessusExcelGenerater:
     def __init__(self):
-        print("NessusExcelGenerater --- loaded")
-
         # 模板位置目前是寫死的(未來可以考慮多個版型可選)
         self.template_path = os.path.join(os.getcwd(), "data/report_templates", "template_va.xlsx")
         self.severity_num_to_ch = {
@@ -185,7 +183,7 @@ class NessusExcelGenerater:
         )
 
         ws_03 = wb.worksheets[2]  # 第3個工作表(修補建議)
-        df_03 = df[df['severity'] != "0"].copy()
+        df_03 = df[df['severity'] != "參考資訊"].copy()
         df_03["severity"] = pd.Categorical(df_03["severity"], categories=self.severity_order, ordered=True)
         df_03 = df_03.sort_values(by=["severity", "ip"], ascending=[False, True])   # 先host再風險
         self.write_dataframe_to_sheet(ws_03, df_03, start_row=3)
@@ -197,7 +195,6 @@ class NessusExcelGenerater:
 
         # 儲存 Excel
         wb.save(output_path)
-        print(f"Nessus_Excel --- fin")
 
     @staticmethod
     def _to_df(json_path):
@@ -220,8 +217,6 @@ def main():
 
     report_generator = NessusExcelGenerater()
     report_generator.generate_report(df_vuln, project_path)
-
-    # print("報告已生成，總共掃描的漏洞嚴重程度統計：", count_severity)
 
 if __name__ == "__main__":
     main()

@@ -116,10 +116,8 @@ class AppScanExcelReport:
         ws_03 = wb.worksheets[2]
         self._write_dataframe_to_sheet(ws_03, df_risk_webs, start_row=3)
         wb.save(output_path)
-        print(f"Excel 報告已成功生成：{output_path}")
 
     def generate_excel_report(self, task_folder_path, report_type, need_canse=3):
-        print(task_folder_path)
         json_paths = []
         file_names = []
         for root, _, files in os.walk(task_folder_path):

@@ -1,9 +1,6 @@
 import os
-from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 import pandas as pd
-
-from services.databases import tasklist, comparelist
 
 from services.nessus_parser import NessusParser
 from services.nessus_excel import NessusExcelGenerater
@@ -45,9 +42,6 @@ class ReportMaker:
         if os.path.isdir(task_folder_va_path):
             self.nessus_excel_generater.generate_report(task_folder_va_path)
             self.nessus_word_generater.generate_report(title_word, task_folder_va_path)
-
-
-
 
         # 刪除json檔
         # os.remove(json_path[0])
@@ -96,7 +90,6 @@ class ReportMaker:
                         self.ScanImageGenerater.generate_image(project_appscan_path)
 
                     task.status='ok'
-                    print("Report --- fin")
 
                 except Exception as e:
                     print(f"An error occurred: {e}")
@@ -131,9 +124,9 @@ class ReportMaker:
                 
             #     session.commit()
 
+report_maker = ReportMaker()
 
 def main():
-    report_maker = ReportMaker()
     report_maker.run()
 
 if __name__ == "__main__":

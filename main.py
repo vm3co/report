@@ -4,7 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 import schedule
 from sqlalchemy import create_engine, text, inspect
-from sqlalchemy.orm import sessionmaker, Session
+from sqlalchemy.orm import sessionmaker
 from typing import List, Optional
 import uvicorn
 import os, datetime, time
@@ -15,7 +15,9 @@ import subprocess
 import sys
 import tempfile
 import zipfile
-from services.report import ReportMaker
+import asyncio
+import concurrent.futures
+from services.report import report_maker
 from services.databases import tasklist, comparelist, adminuser, db, engine
 db.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
@@ -32,12 +34,8 @@ templates = Jinja2Templates(directory="templates")
 UPLOAD_FOLDER = "data/uploadproject"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# 報告
-report_maker = ReportMaker()
-
 def start_gunicorn():
     """启动 Gunicorn 服务"""
-    print("Starting Gunicorn...")
     uvicorn.run("main:app", host="0.0.0.0", port=8080, reload=False)
     # subprocess.Popen(
     #     [ "gunicorn", "-c", "gunicorn.conf.py", "main:app" ],
@@ -107,8 +105,6 @@ async def upload_file(
         # 如果未提供自定義名稱，則使用自動生成的名稱
         uploadtaskname = uploadtaskname or tmpfilename
 
-        # print(uploadtaskname)
-
         # 檢查是否有上傳 AppScan 檔案
         if len(files) == 0:
             return {"error": "No AppScan files uploaded."}
@@ -144,7 +140,7 @@ async def upload_file(
         # 使用线程直接執行資料分析
         Thread(target=run_script, daemon=True).start()
 
-        return "ok，資料分析中..."
+        return
     except Exception as e:
         print(f"Error: {e}")
         session.rollback()  # 確保回滾任何未完成的交易
@@ -191,7 +187,8 @@ async def download_file(     # 下載報告
         "report_type": type,
         "task_folder_path": task_folder_path
     }
-    report_maker.report_generater(data)
+    
+    report_maker.report_generater()
 
     if os.path.isdir(task_folder_web_path):
         ## 下載報告
@@ -216,7 +213,6 @@ async def download_file(     # 下載報告
     with zipfile.ZipFile(zip_path, "w") as zipf:
         for ff in download_paths:
             zipf.write(ff, arcname=f"{os.path.basename(ff)}")
-            print(ff)
     ## 傳送檔案給使用者
     return FileResponse(zip_path, filename=f"{name}.zip", media_type="application/octet-stream")
 
@@ -270,7 +266,6 @@ if __name__ == "__main__":
         gunicorn_thread.start()
 
         # 启动任务调度器
-        print("run schedule")
         run_scheduler()
     
     except KeyboardInterrupt:

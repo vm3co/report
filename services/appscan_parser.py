@@ -6,11 +6,10 @@ from concurrent.futures import ThreadPoolExecutor
 
 class AppScanParser:
     def __init__(self):
-        print("AppScan loading...")
+        pass
     
     def _generate_html_batch(self, task_folder_path, appscanCMDexe, batch_id, batch_appscan):   # 產生單個 BAT 檔案並執行
         bat_path = os.path.join(task_folder_path, "bat", f'batch_{batch_id}.bat')
-        print(f"產生 {bat_path}...")
         try:
             with open(bat_path, 'w') as fw:
                 fw.write('chcp 950\n')  # 設定編碼
@@ -19,7 +18,6 @@ class AppScanParser:
                     fw.write(f'"{appscanCMDexe}" report /b "{appscan}" /rf "{html_path}" /rt html\n')            
             # 執行批次檔
             subprocess.run([bat_path], shell=True, check=True)
-            print(f"{bat_path} 執行完成。")
         except subprocess.CalledProcessError as e:
             print(f"執行 {bat_path} 時發生錯誤: {e}")
                 
@@ -41,7 +39,6 @@ class AppScanParser:
             # **這裡確保所有批次完成**
             for future in future_tasks:
                 future.result()  # 這行會等待對應的批次完成
-        print("所有批次處理完成，繼續執行 Python 其他程式碼...")
         ## 刪除bat檔
         shutil.rmtree(os.path.join(task_folder_path, "bat"))
 
@@ -52,17 +49,11 @@ class AppScanParser:
             json.dump(json_data, f, indent=4, ensure_ascii=False)
 
     def _parse_html(self, task_folder_path):    # 解析 HTML 報告 
-        print("解析 HTML 檔案...")
-
         html_paths = []
         for root, _, files in os.walk(os.path.join(task_folder_path, "html")):
             html_paths.extend([os.path.join(root, f) for f in files if f.endswith('.html')])
 
         for html_path in html_paths:
-            if not os.path.exists(html_path):
-                print(f"警告: 找不到 {html_path}")
-                continue
-            
             with open(html_path, encoding="utf-8") as f:
                 soup = BeautifulSoup(f, "lxml")            
             version_web = soup.find("body").text.split("掃描開始時間")[0].split("所建立")[1].strip()
@@ -136,7 +127,6 @@ class AppScanParser:
                 "information": pd.DataFrame.from_dict([information])
             }
 
-            print("HTML 解析完成。")
             json_path = os.path.join(task_folder_path, "json", f"{file_name}.json")
             self._parse_json(information_web, json_path)        
 
@@ -154,11 +144,9 @@ class AppScanParser:
 
         # 生成html檔(製作appscanCMDexe的bat檔)
         self._generate_html(appscanCMDexe, task_folder_path, appscan_paths, max_batches=4)
-        print("HTML 產生完成。")
 
         # 生成json檔
         self._parse_html(task_folder_path)
-        print("json 產生完成。")    
 
     @staticmethod
     def character_replace(word):

@@ -7,7 +7,7 @@ from pylab import mpl
 
 class NessusImageGenerater:
     def __init__(self):
-        print("NessusImageGenerater --- loaded")
+        pass
 
     def generate_image(self, df, project_path, img_name):
         # font_path = "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc"  # 你的字體路徑
@@ -66,7 +66,7 @@ def main():
     
     i_g = NessusImageGenerater()
     i_g.generate_image(df_count)
-    print("Sean")
+    pass
 
 if __name__ == "__main__":
     main()

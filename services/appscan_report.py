@@ -43,7 +43,6 @@ class Web_Report:
         self.ScanParser.run(task_folder_path, appscanCMDexe)
         # appscan_image
         self.ScanImageGenerater.generate_image(task_folder_path)
-        print("資料處理完畢")
     
     def report_generater(self, data):    # 後產報告
 
